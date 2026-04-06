@@ -1,0 +1,32 @@
+<!-- Student Sidebar — include reference only (will be inlined in PHP) -->
+<div class="sidebar d-flex flex-column">
+  <div class="p-3 border-bottom">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-mortarboard-fill text-primary fs-4"></i>
+      <span class="fw-bold text-primary">PBLMS</span>
+    </div>
+    <small class="text-muted">Project-Based Learning</small>
+  </div>
+  <nav class="flex-grow-1 py-2">
+    <ul class="nav flex-column">
+      <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" href="submit-proposal.html"><i class="bi bi-file-earmark-plus me-2"></i>Submit Proposal</a></li>
+      <li class="nav-item"><a class="nav-link" href="my-projects.html"><i class="bi bi-folder me-2"></i>My Projects</a></li>
+      <li class="nav-item"><a class="nav-link" href="../shared/messages.html"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>
+      <li class="nav-item"><a class="nav-link" href="feedback.html"><i class="bi bi-hand-thumbs-up me-2"></i>Feedback</a></li>
+      <li class="nav-item"><a class="nav-link" href="results.html"><i class="bi bi-bar-chart me-2"></i>Results</a></li>
+    </ul>
+  </nav>
+  <div class="p-3 border-top">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <div class="user-avatar bg-primary text-white" id="userAvatar">S</div>
+      <div>
+        <div class="fw-semibold small" id="userName">Student</div>
+        <div class="text-muted" style="font-size:0.72rem;" id="userRoleLabel">Student</div>
+      </div>
+    </div>
+    <button class="btn btn-outline-danger btn-sm w-100" onclick="logout()">
+      <i class="bi bi-box-arrow-right me-1"></i>Logout
+    </button>
+  </div>
+</div>

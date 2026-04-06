@@ -1,0 +1,32 @@
+<!-- PBL Manager Sidebar — include reference only -->
+<div class="sidebar d-flex flex-column">
+  <div class="p-3 border-bottom">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-mortarboard-fill text-primary fs-4"></i>
+      <span class="fw-bold text-primary">PBLMS</span>
+    </div>
+    <small class="text-muted">Project-Based Learning</small>
+  </div>
+  <nav class="flex-grow-1 py-2">
+    <ul class="nav flex-column">
+      <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" href="users.html"><i class="bi bi-people me-2"></i>Users</a></li>
+      <li class="nav-item"><a class="nav-link" href="proposals.html"><i class="bi bi-file-earmark-text me-2"></i>All Proposals</a></li>
+      <li class="nav-item"><a class="nav-link" href="evaluations.html"><i class="bi bi-star me-2"></i>Evaluations</a></li>
+      <li class="nav-item"><a class="nav-link" href="analytics.html"><i class="bi bi-bar-chart me-2"></i>Analytics</a></li>
+      <li class="nav-item"><a class="nav-link" href="../shared/messages.html"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>
+    </ul>
+  </nav>
+  <div class="p-3 border-top">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <div class="user-avatar bg-danger text-white" id="userAvatar">M</div>
+      <div>
+        <div class="fw-semibold small" id="userName">Manager</div>
+        <div class="text-muted" style="font-size:0.72rem;" id="userRoleLabel">PBL Manager</div>
+      </div>
+    </div>
+    <button class="btn btn-outline-danger btn-sm w-100" onclick="logout()">
+      <i class="bi bi-box-arrow-right me-1"></i>Logout
+    </button>
+  </div>
+</div>

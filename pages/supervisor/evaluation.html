@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Evaluation – PBL Management System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <style>
+    body{background:#f4f6f9;}
+    .sidebar{min-height:100vh;background:#fff;border-right:1px solid #dee2e6;width:220px;position:fixed;top:0;left:0;}
+    .sidebar .nav-link{color:#495057;font-size:0.9rem;padding:10px 16px;border-radius:6px;margin:2px 8px;}
+    .sidebar .nav-link:hover{background:#f0f0ff;color:#4f46e5;}
+    .sidebar .nav-link.active{background:#ede9fe;color:#4f46e5;font-weight:600;}
+    .main{margin-left:220px;padding:24px;}
+    .star-rating { display:flex; gap:4px; flex-direction:row-reverse; justify-content:flex-end; }
+    .star-rating input { display:none; }
+    .star-rating label { font-size:1.5rem; cursor:pointer; color:#dee2e6; transition:color 0.1s; }
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label { color:#fbbf24; }
+    @media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;}}
+  </style>
+</head>
+<body>
+<div class="sidebar d-flex flex-column">
+  <div class="p-3 border-bottom">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-mortarboard-fill text-primary fs-4"></i>
+      <span class="fw-bold text-primary">PBLMS</span>
+    </div>
+    <small class="text-muted">Project-Based Learning</small>
+  </div>
+  <nav class="flex-grow-1 py-2"><ul class="nav flex-column" id="sidebarNav"></ul></nav>
+  <div class="p-3 border-top">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width:34px;height:34px;font-size:0.75rem;font-weight:700;" id="userAvatar">AK</div>
+      <div><div class="fw-semibold small" id="userName">User</div><div class="text-muted" style="font-size:0.72rem;" id="userRoleLabel">Supervisor</div></div>
+    </div>
+    <button class="btn btn-outline-danger btn-sm w-100" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="mb-4">
+    <h4 class="mb-0 fw-bold">Evaluate Students</h4>
+    <p class="text-muted small mb-0">Grade and provide evaluation for student projects</p>
+  </div>
+
+  <div class="row g-3">
+    <!-- Evaluation Form -->
+    <div class="col-md-7">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white fw-semibold">New Evaluation</div>
+        <div class="card-body">
+          <form onsubmit="submitEvaluation(event)">
+            <div class="mb-3">
+              <label class="form-label">Select Student <span class="text-danger">*</span></label>
+              <select class="form-select" id="evalStudent" required>
+                <option value="">-- Choose Student --</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Evaluation Type <span class="text-danger">*</span></label>
+              <select class="form-select" id="evalType" required>
+                <option value="">-- Select Type --</option>
+                <option>Mid-Term Evaluation</option>
+                <option>Final Evaluation</option>
+                <option>Progress Review</option>
+                <option>Proposal Review</option>
+              </select>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Technical Score <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="techScore" min="0" max="100" placeholder="0-100" required/>
+                  <span class="input-group-text">/100</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Documentation Score <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="docScore" min="0" max="100" placeholder="0-100" required/>
+                  <span class="input-group-text">/100</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Presentation Score <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="presScore" min="0" max="100" placeholder="0-100" required/>
+                  <span class="input-group-text">/100</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Overall Rating</label>
+                <div class="star-rating" id="starRating">
+                  <input type="radio" name="stars" id="s5" value="5"/><label for="s5">★</label>
+                  <input type="radio" name="stars" id="s4" value="4"/><label for="s4">★</label>
+                  <input type="radio" name="stars" id="s3" value="3" checked/><label for="s3">★</label>
+                  <input type="radio" name="stars" id="s2" value="2"/><label for="s2">★</label>
+                  <input type="radio" name="stars" id="s1" value="1"/><label for="s1">★</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Feedback Comments <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="evalFeedback" rows="4" placeholder="Write detailed feedback for the student..." required></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Recommendations</label>
+              <textarea class="form-control" id="evalRec" rows="2" placeholder="Suggestions for improvement..."></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary"><i class="bi bi-send me-1"></i>Submit Evaluation</button>
+              <button type="reset" class="btn btn-outline-secondary">Reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Evaluations -->
+    <div class="col-md-5">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white fw-semibold">Recent Evaluations</div>
+        <div class="card-body p-0" id="recentEvals">
+          <ul class="list-group list-group-flush" id="evalList">
+            <li class="list-group-item border-0 px-3 py-4 text-center text-muted" id="evalEmpty">
+              <i class="bi bi-clipboard-x fs-2 d-block mb-2"></i>
+              No evaluations yet.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Success Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+  <div id="evalToast" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="evalToastMsg">Evaluation submitted!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script>
+function submitEvaluation(e) {
+  e.preventDefault();
+  const student = document.getElementById('evalStudent').value;
+  const tech = parseInt(document.getElementById('techScore').value)||0;
+  const doc  = parseInt(document.getElementById('docScore').value)||0;
+  const pres = parseInt(document.getElementById('presScore').value)||0;
+  const avg  = Math.round((tech+doc+pres)/3);
+
+  // Add to recent list
+  const list = document.getElementById('evalList');
+  document.getElementById('evalEmpty')?.remove();
+  const li   = document.createElement('li');
+  li.className = 'list-group-item border-0 px-3 py-3';
+  const cls = avg>=85?'bg-success':avg>=70?'bg-primary':avg>=50?'bg-warning text-dark':'bg-danger';
+  li.innerHTML = `
+    <div class="d-flex justify-content-between mb-1">
+      <span class="fw-semibold small">${student.split('–')[0].trim()}</span>
+      <span class="badge ${cls}">${avg}/100</span>
+    </div>
+    <div class="text-muted small">${document.getElementById('evalType').value}</div>
+    <div class="text-muted" style="font-size:0.72rem;">Just now</div>
+  `;
+  list.insertBefore(li, list.firstChild);
+
+  // Show toast
+  const toast = document.getElementById('evalToast');
+  document.getElementById('evalToastMsg').textContent = `✅ Evaluation submitted for ${student.split('–')[0].trim()} (${avg}/100)`;
+  bootstrap.Toast.getOrCreateInstance(toast, {delay:3500}).show();
+  e.target.reset();
+}
+
+function buildNav() {
+  const role = sessionStorage.getItem('pbl_role') || 'supervisor';
+  const nav  = document.getElementById('sidebarNav');
+  const lbl  = document.getElementById('userRoleLabel');
+  if(lbl) lbl.textContent = role.charAt(0).toUpperCase()+role.slice(1);
+  const supLinks = `<li><a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li><li><a class="nav-link" href="review-proposals.html"><i class="bi bi-file-earmark-check me-2"></i>Review Proposals</a></li><li><a class="nav-link" href="my-students.html"><i class="bi bi-people me-2"></i>My Students</a></li><li><a class="nav-link" href="../shared/messages.html"><i class="bi bi-chat-dots me-2"></i>Messages</a></li><li><a class="nav-link active" href="evaluation.html"><i class="bi bi-star me-2"></i>Evaluate</a></li><li><a class="nav-link" href="reports.html"><i class="bi bi-bar-chart me-2"></i>Reports</a></li>`;
+  const adminLinks = `<li><a class="nav-link" href="admin-dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li><li><a class="nav-link" href="admin-users.html"><i class="bi bi-people me-2"></i>Users</a></li><li><a class="nav-link" href="review-proposals.html"><i class="bi bi-file-earmark-text me-2"></i>All Proposals</a></li><li><a class="nav-link active" href="evaluation.html"><i class="bi bi-star me-2"></i>Evaluations</a></li><li><a class="nav-link" href="reports.html"><i class="bi bi-bar-chart me-2"></i>Analytics</a></li><li><a class="nav-link" href="../shared/messages.html"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>`;
+  if(nav) nav.innerHTML = role==='admin' ? adminLinks : supLinks;
+}
+document.addEventListener('DOMContentLoaded', buildNav);
+</script>
+</body>
+</html>
