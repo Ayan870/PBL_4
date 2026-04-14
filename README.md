@@ -84,4 +84,4 @@ pbl-management-system/
 2. Copy `config/db.php` and fill in your DB credentials
 3. Import the SQL schema into your MySQL database
 4. Run on a local server (XAMPP / WAMP / php -S localhost:8000)
-5. Open `index.html` in your browser
+5. Open `index.html` in your browser.
