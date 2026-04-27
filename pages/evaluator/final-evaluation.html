@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Final Evaluation – Evaluator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="../../assets/css/theme-dark-purple.css" rel="stylesheet"/>
+  <style>
+    body{background:#f4f6f9;}
+    .sidebar{min-height:100vh;background:#fff;border-right:1px solid #dee2e6;width:220px;position:fixed;top:0;left:0;}
+    .sidebar .nav-link{color:#495057;font-size:0.9rem;padding:10px 16px;border-radius:6px;margin:2px 8px;}
+    .sidebar .nav-link:hover{background:#f0f0ff;color:#4f46e5;}
+    .sidebar .nav-link.active{background:#ede9fe;color:#4f46e5;font-weight:600;}
+    .main{margin-left:220px;padding:24px;}
+    @media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;}}
+  </style>
+</head>
+<body>
+
+<div class="sidebar d-flex flex-column">
+  <div class="p-3 border-bottom">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-mortarboard-fill text-primary fs-4"></i>
+      <span class="fw-bold text-primary">PBLMS</span>
+    </div>
+    <small class="text-muted">Final Evaluation</small>
+  </div>
+  <nav class="flex-grow-1 py-2">
+    <ul class="nav flex-column">
+      <li><a class="nav-link active" href="final-evaluation.html"><i class="bi bi-clipboard-check me-2"></i>Final Evaluation</a></li>
+    </ul>
+  </nav>
+  <div class="p-3 border-top">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width:34px;height:34px;font-size:0.75rem;font-weight:700;" id="userAvatar">U</div>
+      <div><div class="fw-semibold small" id="userName">User</div><div class="text-muted" style="font-size:0.72rem;" id="userRoleLabel">Evaluator</div></div>
+    </div>
+    <button class="btn btn-outline-danger btn-sm w-100" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="mb-4">
+    <h4 class="mb-0 fw-bold">Submit Final Evaluation</h4>
+    <p class="text-muted small mb-0">Evaluate groups/projects and submit final scores</p>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">Evaluation Form</span>
+          <span class="badge bg-secondary" id="sessionState">Checking…</span>
+        </div>
+        <div class="card-body">
+          <div id="sessionNote" class="small text-muted mb-3"></div>
+
+          <form onsubmit="submitFinalEval(event)" id="evalForm">
+            <div class="mb-3">
+              <label class="form-label">Select Group / Student <span class="text-danger">*</span></label>
+              <select class="form-select" id="targetSelect" required>
+                <option value="">-- Choose --</option>
+              </select>
+              <div class="form-text" id="targetHint"></div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label class="form-label">Technical <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="scoreTech" min="0" max="100" required/>
+                  <span class="input-group-text">/100</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Documentation <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="scoreDoc" min="0" max="100" required/>
+                  <span class="input-group-text">/100</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Presentation <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="scorePres" min="0" max="100" required/>
+                  <span class="input-group-text">/100</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Stars (1–5)</label>
+              <select class="form-select" id="stars">
+                <option value="5">★★★★★ (5)</option>
+                <option value="4">★★★★ (4)</option>
+                <option value="3">★★★ (3)</option>
+                <option value="2">★★ (2)</option>
+                <option value="1">★ (1)</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Feedback <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="feedback" rows="4" required placeholder="Write evaluation feedback…"></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Recommendations</label>
+              <textarea class="form-control" id="recommendations" rows="2" placeholder="Suggestions for improvement…"></textarea>
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit" id="submitBtn">
+              <i class="bi bi-send me-1"></i> Submit Final Evaluation
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">My Recent Submissions</span>
+          <button class="btn btn-sm btn-outline-secondary" onclick="renderRecent()"><i class="bi bi-arrow-repeat"></i></button>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush" id="recentList">
+            <li class="list-group-item text-center text-muted py-4">No submissions yet.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/js/db.js"></script>
+<script src="../../assets/js/groups.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script>
+function ensureEvaluator() {
+  const role = sessionStorage.getItem('pbl_role') || '';
+  if (role !== 'evaluator') {
+    window.location.href = (typeof pblUrlFromRoot === 'function') ? pblUrlFromRoot('index.html') : '../../index.html';
+    return false;
+  }
+  return true;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function acceptedMembers(group) {
+  return (group?.members || []).filter(m => m.invite_status === 'accepted');
+}
+
+function buildTargets() {
+  const sel = document.getElementById('targetSelect');
+  const hint = document.getElementById('targetHint');
+  if (!sel) return;
+
+  const groups = (typeof groupsRead === 'function') ? groupsRead() : [];
+  const usableGroups = groups.filter(g => acceptedMembers(g).length > 0);
+
+  const opts = [];
+  if (usableGroups.length) {
+    hint.textContent = 'Showing active groups from the group system.';
+    usableGroups.forEach(g => {
+      const mem = acceptedMembers(g).map(m => m.rollNumber).join(', ');
+      const label = `${g.name} — ${mem}`;
+      opts.push({ value: `group:${g.id}`, label });
+    });
+  } else if (typeof pblAllUsers === 'function') {
+    hint.textContent = 'No groups found; listing students instead.';
+    const students = pblAllUsers().filter(u => String(u?.role || '').toLowerCase() === 'student');
+    students.forEach(u => {
+      const label = `${u.name || u.rollNumber} — ${u.rollNumber}`;
+      opts.push({ value: `student:${u.rollNumber}`, label });
+    });
+  } else {
+    hint.textContent = '';
+  }
+
+  sel.innerHTML = `<option value="">-- Choose --</option>` + opts.map(o =>
+    `<option value="${escapeHtml(o.value)}">${escapeHtml(o.label)}</option>`
+  ).join('');
+}
+
+function updateSessionUi() {
+  const badge = document.getElementById('sessionState');
+  const note = document.getElementById('sessionNote');
+  const form = document.getElementById('evalForm');
+
+  const session = (typeof pblFinalEvalSessionRead === 'function') ? pblFinalEvalSessionRead() : null;
+  if (!session) {
+    badge.className = 'badge bg-secondary';
+    badge.textContent = 'Not started';
+    note.textContent = 'Final evaluation is not triggered yet. Please contact the PBL Manager.';
+    form.querySelectorAll('input,select,textarea,button').forEach(x => x.disabled = true);
+    return null;
+  }
+  if (session.status !== 'open') {
+    badge.className = 'badge bg-dark';
+    badge.textContent = 'Closed';
+    note.textContent = 'Final evaluation session is closed.';
+    form.querySelectorAll('input,select,textarea,button').forEach(x => x.disabled = true);
+    return session;
+  }
+
+  badge.className = 'badge bg-success';
+  badge.textContent = 'Open';
+  note.textContent = `Session is OPEN. Assigned evaluator: ${session.evaluatorName || 'Evaluator'} (${session.evaluatorEmail || ''}).`;
+  form.querySelectorAll('input,select,textarea,button').forEach(x => x.disabled = false);
+  return session;
+}
+
+function submitFinalEval(e) {
+  e.preventDefault();
+  if (!ensureEvaluator()) return;
+
+  const session = updateSessionUi();
+  if (!session || session.status !== 'open') return;
+
+  const evaluatorEmail = sessionStorage.getItem('pbl_email') || '';
+  const evaluatorName = sessionStorage.getItem('pbl_name') || 'Evaluator';
+
+  const value = document.getElementById('targetSelect').value;
+  if (!value) return;
+  const [targetType, targetId] = value.split(':');
+
+  const targetLabel = document.getElementById('targetSelect').selectedOptions?.[0]?.textContent || targetId;
+  const technical = document.getElementById('scoreTech').value;
+  const documentation = document.getElementById('scoreDoc').value;
+  const presentation = document.getElementById('scorePres').value;
+  const stars = document.getElementById('stars').value;
+  const feedback = document.getElementById('feedback').value;
+  const recommendations = document.getElementById('recommendations').value;
+
+  const res = pblFinalEvalSubmit({
+    sessionId: session.id,
+    evaluatorEmail,
+    evaluatorName,
+    targetType,
+    targetId,
+    targetLabel,
+    technical,
+    documentation,
+    presentation,
+    stars,
+    feedback,
+    recommendations
+  });
+
+  if (!res?.ok) {
+    alert('Could not submit evaluation. Please try again.');
+    return;
+  }
+  if (typeof showToast === 'function') showToast(`Final evaluation submitted (${res.evaluation.overall}/100).`, 'success');
+  e.target.reset();
+  renderRecent();
+}
+
+function fmt(ms) {
+  if (!ms) return '—';
+  try { return new Date(ms).toLocaleString(); } catch { return '—'; }
+}
+
+function renderRecent() {
+  const ul = document.getElementById('recentList');
+  const session = (typeof pblFinalEvalSessionRead === 'function') ? pblFinalEvalSessionRead() : null;
+  const evaluatorEmail = (sessionStorage.getItem('pbl_email') || '').toLowerCase();
+  const all = (typeof pblFinalEvalResultsRead === 'function') ? pblFinalEvalResultsRead() : [];
+
+  const rows = all.filter(r =>
+    (!session?.id || String(r?.sessionId || '') === String(session.id)) &&
+    String(r?.evaluatorEmail || '').toLowerCase() === evaluatorEmail
+  ).slice(0, 8);
+
+  if (!rows.length) {
+    ul.innerHTML = `<li class="list-group-item text-center text-muted py-4">No submissions yet.</li>`;
+    return;
+  }
+
+  ul.innerHTML = rows.map(r => `
+    <li class="list-group-item">
+      <div class="d-flex justify-content-between">
+        <div class="fw-semibold small">${escapeHtml(r.targetLabel || r.targetId || '')}</div>
+        <span class="badge bg-primary">${r.overall}/100</span>
+      </div>
+      <div class="text-muted small">${escapeHtml(r.targetType || '')} • ${fmt(r.submittedAt)}</div>
+    </li>
+  `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (!ensureEvaluator()) return;
+  buildTargets();
+  updateSessionUi();
+  renderRecent();
+});
+</script>
+</body>
+</html>

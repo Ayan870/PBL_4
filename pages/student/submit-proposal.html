@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit Proposal – PBL Management System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="../../assets/css/theme-dark-purple.css" rel="stylesheet"/>
+  <style>
+    body { background:#f4f6f9; }
+    .sidebar { min-height:100vh; background:#fff; border-right:1px solid #dee2e6; width:220px; position:fixed; top:0; left:0; }
+    .sidebar .nav-link { color:#495057; font-size:0.9rem; padding:10px 16px; border-radius:6px; margin:2px 8px; }
+    .sidebar .nav-link:hover { background:#f0f0ff; color:#4f46e5; }
+    .sidebar .nav-link.active { background:#ede9fe; color:#4f46e5; font-weight:600; }
+    .main { margin-left:220px; padding:24px; }
+    .step-circle { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; border:2px solid #dee2e6; color:#adb5bd; flex-shrink:0; }
+    .step-circle.active { background:#4f46e5; border-color:#4f46e5; color:#fff; }
+    .step-circle.done { background:#22c55e; border-color:#22c55e; color:#fff; }
+    .step-line { flex:1; height:2px; background:#dee2e6; }
+    .step-line.done { background:#22c55e; }
+    .form-step { display:none; }
+    .form-step.active { display:block; }
+    .file-drop { border:2px dashed #dee2e6; border-radius:8px; padding:32px; text-align:center; cursor:pointer; background:#fafafa; transition:all 0.2s; }
+    .file-drop:hover, .file-drop.drag-over { border-color:#4f46e5; background:#f0f0ff; }
+    @media(max-width:768px){ .sidebar{display:none;} .main{margin-left:0;} }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar d-flex flex-column">
+  <div class="p-3 border-bottom">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-mortarboard-fill text-primary fs-4"></i>
+      <span class="fw-bold text-primary">PBLMS</span>
+    </div>
+    <small class="text-muted">Project-Based Learning</small>
+  </div>
+  <nav class="flex-grow-1 py-2">
+    <ul class="nav flex-column">
+      <li><a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+      <li><a class="nav-link active" href="submit-proposal.html"><i class="bi bi-file-earmark-plus me-2"></i>Submit Proposal</a></li>
+      <li><a class="nav-link" href="my-projects.html"><i class="bi bi-folder me-2"></i>My Projects</a></li>
+      <li><a class="nav-link" href="../shared/messages.html"><i class="bi bi-chat-dots me-2"></i>Messages</a></li>
+      <li><a class="nav-link" href="feedback.html"><i class="bi bi-hand-thumbs-up me-2"></i>Feedback</a></li>
+      <li><a class="nav-link" href="results.html"><i class="bi bi-bar-chart me-2"></i>Results</a></li>
+    </ul>
+  </nav>
+  <div class="p-3 border-top">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width:34px;height:34px;font-size:0.75rem;font-weight:700;" id="userAvatar">S</div>
+      <div>
+        <div class="fw-semibold small" id="userName">Student User</div>
+        <div class="text-muted" style="font-size:0.72rem;">Student</div>
+      </div>
+    </div>
+    <button class="btn btn-outline-danger btn-sm w-100" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+  <div class="mb-4">
+    <h4 class="mb-0 fw-bold">Submit Proposal</h4>
+    <p class="text-muted small mb-0">Fill in the details below to submit your PBL project proposal</p>
+  </div>
+
+  <!-- Step Indicator -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body py-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="step-circle active" id="step-ind-1">1</div>
+        <span class="small fw-semibold text-primary d-none d-md-inline">Basic Info</span>
+        <div class="step-line" id="line-1"></div>
+
+        <div class="step-circle" id="step-ind-2">2</div>
+        <span class="small text-muted d-none d-md-inline">Details</span>
+        <div class="step-line" id="line-2"></div>
+
+        <div class="step-circle" id="step-ind-3">3</div>
+        <span class="small text-muted d-none d-md-inline">Team & Files</span>
+        <div class="step-line" id="line-3"></div>
+
+        <div class="step-circle" id="step-ind-4">4</div>
+        <span class="small text-muted d-none d-md-inline">Review</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+
+      <!-- Step 1: Basic Info -->
+      <div class="form-step active" id="fstep-1">
+        <h5 class="fw-bold mb-4 pb-2 border-bottom">Step 1: Basic Information</h5>
+        <div class="mb-3">
+          <label class="form-label">Project Title <span class="text-danger">*</span></label>
+          <input type="text" id="projTitle" class="form-control" placeholder="Enter a descriptive project title"/>
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Department <span class="text-danger">*</span></label>
+            <select id="projDept" class="form-select">
+              <option value="">Select Department</option>
+              <option>CS & IT</option>
+              <option>AHS</option>
+              <option>Management Sciences</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Category <span class="text-danger">*</span></label>
+            <select id="projCategory" class="form-select">
+              <option value="">Select Category</option>
+              <option>Artificial Intelligence</option>
+              <option>Web Development</option>
+              <option>Mobile Application</option>
+              <option>IoT / Embedded Systems</option>
+              <option>Data Science</option>
+              <option>Cybersecurity</option>
+              <option>Robotics</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label">Supervisor <span class="text-danger">*</span></label>
+            <select id="projSupervisor" class="form-select">
+              <option value="">Select Supervisor</option>
+              <option>Sir Saad Shahzad</option>
+              <option>Sir Hammid Sanan</option>
+              <option>Sir Khalid</option>
+              <option>Sir Shahbaz Sahi</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Semester <span class="text-danger">*</span></label>
+            <select id="projSemester" class="form-select">
+              <option value="">Select Semester</option>
+              <option>1st</option>
+              <option>2nd</option>
+              <option>3rd</option>
+              <option>4th</option>
+              <option>5th</option>
+              <option>6th</option>
+              
+            </select>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-primary" onclick="nextStep(1)">Next: Project Details <i class="bi bi-arrow-right ms-1"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 2: Details -->
+      <div class="form-step" id="fstep-2">
+        <h5 class="fw-bold mb-4 pb-2 border-bottom">Step 2: Project Details</h5>
+        <div class="mb-3">
+          <label class="form-label">Description <span class="text-danger">*</span></label>
+          <textarea id="projAbstract" class="form-control" rows="4" placeholder="Provide a detailed description of your project..."></textarea>
+          <div class="form-text"><span id="abstractCount">0</span> words</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Objectives <span class="text-danger">*</span></label>
+          <textarea id="projObjectives" class="form-control" rows="3" placeholder="List the key objectives of your project..."></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="form-label">Tools & Technologies <span class="text-danger">*</span></label>
+          <input type="text" id="projTools" class="form-control" placeholder="e.g. Python, React, TensorFlow"/>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-secondary" onclick="prevStep(2)"><i class="bi bi-arrow-left me-1"></i> Back</button>
+          <button class="btn btn-primary" onclick="nextStep(2)">Next: Team & Files <i class="bi bi-arrow-right ms-1"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 3: Team & Files -->
+      <div class="form-step" id="fstep-3">
+        <h5 class="fw-bold mb-4 pb-2 border-bottom">Step 3: Team Members & Documents</h5>
+
+        <label class="form-label fw-semibold">Team Members</label>
+        <div id="teamList" class="mb-2">
+          <div class="row g-2 mb-2 team-row">
+            <div class="col-5"><input type="text" class="form-control form-control-sm member-name" placeholder="Member name"/></div>
+            <div class="col-5"><input type="text" class="form-control form-control-sm member-id" placeholder="Student ID"/></div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-primary mb-4" onclick="addTeamMember()">
+          <i class="bi bi-plus-lg me-1"></i> Add Member (max 4)
+        </button>
+
+        <label class="form-label fw-semibold d-block">Upload Proposal Document</label>
+        <div class="file-drop mb-4" id="fileDrop" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" accept=".pdf,.doc,.docx" hidden onchange="handleFile(this)"/>
+          <div id="fileDropInner">
+            <i class="bi bi-cloud-upload fs-1 text-muted"></i>
+            <p class="mb-1">Click to upload or drag & drop</p>
+            <p class="text-muted small mb-0">PDF, DOC, DOCX — max 10MB</p>
+          </div>
+          <div id="filePreview" class="d-none">
+            <i class="bi bi-file-earmark-pdf text-danger fs-2"></i>
+            <div id="fileName" class="fw-semibold small mt-1"></div>
+            <div id="fileSize" class="text-muted small"></div>
+            <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="clearFile(event)">Remove</button>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-secondary" onclick="prevStep(3)"><i class="bi bi-arrow-left me-1"></i> Back</button>
+          <button class="btn btn-primary" onclick="nextStep(3)">Review Proposal <i class="bi bi-arrow-right ms-1"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 4: Review -->
+      <div class="form-step" id="fstep-4">
+        <h5 class="fw-bold mb-4 pb-2 border-bottom">Step 4: Review & Submit</h5>
+        <div id="reviewPanel" class="table-responsive mb-4">
+          <table class="table table-bordered table-sm">
+            <tbody id="reviewTableBody"></tbody>
+          </table>
+        </div>
+        <div class="alert alert-secondary">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="declareCheck"/>
+            <label class="form-check-label small" for="declareCheck">
+              I declare that this is original work, and all information provided is accurate. I understand that submitting plagiarized content may result in disqualification.
+            </label>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-secondary" onclick="prevStep(4)"><i class="bi bi-arrow-left me-1"></i> Back</button>
+          <button class="btn btn-success" id="submitBtn" onclick="submitProposal()">
+            <i class="bi bi-send me-1"></i> Submit Proposal
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-body text-center py-5">
+        <i class="bi bi-check-circle-fill text-success" style="font-size:3rem;"></i>
+        <h4 class="fw-bold mt-3">Proposal Submitted!</h4>
+        <p class="text-muted">Your proposal has been submitted successfully and is now under review by your supervisor.</p>
+        <p class="mb-4">Reference ID: <strong class="text-primary">PBL-2025-0042</strong></p>
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="my-projects.html" class="btn btn-primary">View My Projects</a>
+          <a href="dashboard.html" class="btn btn-outline-secondary">Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/js/db.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/proposal.js"></script>
+</body>
+</html>
