@@ -1,0 +1,38 @@
+# OS files
+Thumbs.db
+.DS_Store
+
+# PHPStorm / VS Code
+.idea/
+.vscode/
+
+# Environment files
+.env
+.env.local
+
+# Composer
+vendor/
+
+# Logs
+*.log
+
+# Uploaded files - keep if you need to track uploads
+uploads/
+
+# XAMPP specific
+/tmp/
+
+# Database
+*.sql
+
+# Python runtime (realtime-chat)
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Other
+*.cache
+*.bak
+*.swp

@@ -1,0 +1,72 @@
+/* ===== common.css — Shared dashboard styles for all roles ===== */
+body { background: #f4f6f9; }
+
+/* Sidebar */
+.sidebar {
+  min-height: 100vh;
+  background: #fff;
+  border-right: 1px solid #dee2e6;
+  width: 230px;
+  position: fixed;
+  top: 0; left: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+.sidebar .nav-link {
+  color: #495057;
+  font-size: 0.9rem;
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin: 2px 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.sidebar .nav-link:hover  { background: #f0f0ff; color: #4f46e5; }
+.sidebar .nav-link.active { background: #ede9fe; color: #4f46e5; font-weight: 600; }
+.sidebar .nav-link i      { width: 20px; }
+
+/* Main content */
+.main-content {
+  margin-left: 230px;
+  padding: 24px;
+  min-height: 100vh;
+}
+
+/* Stat cards */
+.stat-card {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  background: #fff;
+  padding: 18px;
+}
+.stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+/* User avatar circle */
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Progress bar height */
+.progress { height: 8px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main-content { margin-left: 0; }
+}

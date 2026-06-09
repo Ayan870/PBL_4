@@ -1,0 +1,223 @@
+﻿Folder PATH listing
+Volume serial number is 1A35-ACDA
+C:.
+|   10 may improved 2.zip
+|   10 may.zip
+|   Backgroud pick.png
+|   improvement.txt
+|   index.php
+|   LOGO.png
+|   start_chat.bat
+|   tree_output.txt
+|   
++---api
+|   |   get_notifications.php
+|   |   
+|   +---auth
+|   |       change_password.php
+|   |       check_session.php
+|   |       login.php
+|   |       logout.php
+|   |       register.php
+|   |       register_debug.log
+|   |       
+|   +---evaluator
+|   |       get_eval_groups.php
+|   |       get_my_evaluations.php
+|   |       get_session_status.php
+|   |       submit_final_evaluation.php
+|   |       
+|   +---manager
+|   |       assign_supervisor.php
+|   |       close_final_eval.php
+|   |       create_mid_session.php
+|   |       delete_assignment.php
+|   |       delete_eval_assignment.php
+|   |       get_analytics.php
+|   |       get_eval_config_data.php
+|   |       get_final_eval_data.php
+|   |       get_final_eval_sessions.php
+|   |       get_mid_eval_summary.php
+|   |       get_mid_sessions.php
+|   |       get_proposals.php
+|   |       get_semesters.php
+|   |       get_users.php
+|   |       save_eval_assignment.php
+|   |       terminate_mid_session.php
+|   |       trigger_final_eval.php
+|   |       
+|   +---student
+|   |       check_proposals.php
+|   |       create_group.php
+|   |       debug_invite.php
+|   |       fix_db.php
+|   |       get_feedback.php
+|   |       get_group_info.php
+|   |       get_proposals.php
+|   |       handle_invite.php
+|   |       patch_db.php
+|   |       submit_flex.php
+|   |       submit_proposal.php
+|   |       
+|   \---supervisor
+|           check_eval_session.php
+|           get_flex_submissions.php
+|           get_groups_for_eval.php
+|           get_proposals.php
+|           get_recent_evaluations.php
+|           get_students.php
+|           get_students_for_eval.php
+|           submit_evaluation.php
+|           update_flex_status.php
+|           update_proposal_status.php
+|           
++---assets
+|   +---css
+|   |       common.css
+|   |       dashboard.css
+|   |       style.css
+|   |       theme-dark-purple.css
+|   |       
+|   \---js
+|           app.js
+|           auth.js
+|           change_password.js
+|           charts.js
+|           chat.js
+|           groups.js
+|           proposal.js
+|           
++---config
+|       api_helper.php
+|       auth_check.php
+|       db.php
+|       
++---database
+|       database.sql
+|       
++---includes
+|       footer.php
+|       header.php
+|       navbar.php
+|       sidebar.php
+|       
++---maintenance
+|       check_waqas.php
+|       check_waqas_all.php
+|       cleanup_waqas.php
+|       fix_waqas_role.php
+|       list_recent_users.php
+|       
++---pages
+|   +---evaluator
+|   |       final-evaluation.php
+|   |       
+|   +---manager
+|   |       analytics.php
+|   |       dashboard.php
+|   |       evaluations.php
+|   |       proposals.php
+|   |       supervisor-assignment.php
+|   |       users.php
+|   |       
+|   +---shared
+|   |       change-password.php
+|   |       chat.php
+|   |       chat_init.php
+|   |       messages.php
+|   |       register.php
+|   |       
+|   +---student
+|   |       dashboard.php
+|   |       feedback.php
+|   |       my-projects.php
+|   |       results.php
+|   |       submit-proposal.php
+|   |       
+|   \---supervisor
+|           dashboard.php
+|           evaluation.php
+|           my-students.php
+|           reports.php
+|           review-proposals.php
+|           
++---realtime-chat
+|   |   connection_manager.py
+|   |   database.py
+|   |   README.md
+|   |   requirements.txt
+|   |   run_server.bat
+|   |   websocket_server.py
+|   |   
+|   \---__pycache__
+|           connection_manager.cpython-314.pyc
+|           database.cpython-314.pyc
+|           websocket_server.cpython-314.pyc
+|           
++---scratch
+|       add_flex_feedback.php
+|       apply_patch.php
+|       chat_schema.sql
+|       check_all_students.php
+|       check_classes.php
+|       check_classes_schema.php
+|       check_class_sup_schema.php
+|       check_db.php
+|       check_evaluations_schema.php
+|       check_eval_schema.php
+|       check_eval_table.php
+|       check_final_eval_schema.php
+|       check_groups.php
+|       check_group_creator.php
+|       check_invites_db.php
+|       check_proposals.php
+|       check_proposals_schema.php
+|       check_schema.php
+|       check_semesters.php
+|       check_semesters_schema.php
+|       check_session.php
+|       check_subjects_schema.php
+|       check_tables.php
+|       check_users.php
+|       check_users_schema.php
+|       create_eval_table.php
+|       create_flex_table.php
+|       create_notifications_table.php
+|       create_sessions_table.php
+|       db_diag.php
+|       debug_session.php
+|       diag_manager_eval.php
+|       find_manager.php
+|       fix_eval_data.php
+|       fix_programs.php
+|       get_group_debug.txt
+|       list_fields.php
+|       list_groups_fields.php
+|       list_programs.php
+|       list_students.php
+|       list_tables.php
+|       run_schema.php
+|       setup_mid_eval_sessions.php
+|       setup_pbl_data.php
+|       supervisor_diag.php
+|       test_group_creation.php
+|       update_flex_table.php
+|       update_mid_eval_table.php
+|       
+\---uploads
+    |   .gitkeep
+    |   
+    +---flex
+    |       1778327286_flex_Copy of pbl standee.pdf (5).png
+    |       
+    \---proposals
+            1777741229_Assignment 2.pdf
+            1777741385_Assignment 2.pdf
+            1777742255_Assignment 2.pdf
+            1777914341_PBL Proposal 4th semester.pdf
+            1777914351_PBL Proposal 4th semester.pdf
+            1777914370_PBL Proposal 4th semester.pdf
+            1777914494_PBL Proposal 4th semester.pdf
+            1777954945_PBL Proposal 4th semester.pdf
+            1778325629_Agentic AI Certificate .pdf
+            
